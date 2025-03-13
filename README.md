@@ -295,8 +295,6 @@ The application is deployed to the Monad Testnet with:
 ### 1. UI/UX Improvements
 - Enhanced visual design with more intuitive user flows
 - Interactive charts for price history and market cap trends
-- Mobile-responsive design optimizations
-- Dark mode support
 - Guided tutorials for new users
 
 ### 2. Wallet Integration Enhancements

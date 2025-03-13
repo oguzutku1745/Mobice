@@ -642,7 +642,7 @@ export default function TokenDetailPage() {
               </div>
             )}
             <div>
-              <h1 className="text-3xl font-bold">{token.name} ({token.symbol})</h1>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-black">{token.name} ({token.symbol})</h1>
               <p className="text-gray-600 dark:text-gray-400">Created on {formatCreationTime(token.creationTime)}</p>
               
               {/* Migration Status Badge */}
@@ -686,11 +686,11 @@ export default function TokenDetailPage() {
         {/* Token Details */}
         <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h2 className="text-xl font-semibold mb-4">About</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-black">About</h2>
             <p className="text-gray-700 dark:text-gray-300">{token.description}</p>
             
             <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-2">Market Cap</h3>
+              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-black">Market Cap</h3>
               <div className="flex items-center">
                 <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mr-2">
                   {formatMarketCap(token.marketCap)}
@@ -779,7 +779,7 @@ export default function TokenDetailPage() {
             
             {walletConnected && (
               <div className="mt-6">
-                <h3 className="text-lg font-semibold mb-2">Your Balance</h3>
+                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-black">Your Balance</h3>
                 <div className="flex items-center">
                   {userBalance.startsWith("You are the owner") ? (
                     <div>
@@ -802,7 +802,7 @@ export default function TokenDetailPage() {
           
           {/* Trading Panel */}
           <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Trade {token.symbol}</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-black">Trade {token.symbol}</h2>
             
             {token.migrated ? (
               <div className="bg-blue-100 dark:bg-blue-800 p-4 rounded-lg mb-4">
@@ -830,7 +830,7 @@ export default function TokenDetailPage() {
               <>
                 {/* Buy Panel */}
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-2">Buy {token.symbol}</h3>
+                  <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-black">Buy {token.symbol}</h3>
                   <div className="flex items-center">
                     <input
                       type="number"
@@ -852,7 +852,7 @@ export default function TokenDetailPage() {
                 
                 {/* Sell Panel */}
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Sell {token.symbol}</h3>
+                  <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-black">Sell {token.symbol}</h3>
                   <div className="flex items-center">
                     <input
                       type="number"

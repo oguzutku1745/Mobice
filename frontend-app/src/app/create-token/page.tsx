@@ -211,7 +211,7 @@ export default function CreateTokenPage() {
         )}
         
         <form onSubmit={handleSubmit}>
-          <div className="mb-6">
+          <div className="mb-6  text-gray-900 dark:text-black">
             <label htmlFor="name" className="block text-sm font-medium mb-2">
               Token Name <span className="text-red-500">*</span>
             </label>
@@ -227,7 +227,7 @@ export default function CreateTokenPage() {
             />
           </div>
           
-          <div className="mb-6">
+          <div className="mb-6 text-gray-900 dark:text-black">
             <label htmlFor="symbol" className="block text-sm font-medium mb-2">
               Token Symbol <span className="text-red-500">*</span>
             </label>
@@ -246,7 +246,7 @@ export default function CreateTokenPage() {
             </p>
           </div>
           
-          <div className="mb-6">
+          <div className="mb-6 text-gray-900 dark:text-black">
             <label htmlFor="description" className="block text-sm font-medium mb-2">
               Description <span className="text-red-500">*</span>
             </label>
@@ -262,7 +262,7 @@ export default function CreateTokenPage() {
             />
           </div>
           
-          <div className="mb-8">
+          <div className="mb-8 text-gray-900 dark:text-black">
             <label className="block text-sm font-medium mb-2">
               Token Logo <span className="text-red-500">*</span>
             </label>

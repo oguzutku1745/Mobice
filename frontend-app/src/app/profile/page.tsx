@@ -177,14 +177,14 @@ export default function ProfilePage() {
           </div>
           
           <div>
-            <h2 className="text-xl font-semibold mb-2">Wallet Address</h2>
+            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-black">Wallet Address</h2>
             <p className="text-gray-600 dark:text-gray-300 font-mono mb-4 bg-gray-100 dark:bg-gray-700 p-2 rounded-lg">
               {walletAddress}
             </p>
             
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
               <div>
-                <h2 className="text-xl font-semibold mb-2">Balance</h2>
+                <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-black">Balance</h2>
                 <p className="text-gray-600 dark:text-gray-300">
                   <span className="font-bold text-2xl">{balance}</span> {networkInfo?.name === 'MONAD Testnet' ? 'MON' : 'ETH'}
                 </p>
@@ -225,7 +225,7 @@ export default function ProfilePage() {
       {/* Tokens Held Section */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Your Token Holdings</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-black">Your Token Holdings</h2>
           <Link 
             href="/" 
             className="text-indigo-600 hover:text-indigo-800 font-medium flex items-center"
@@ -255,7 +255,7 @@ export default function ProfilePage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b dark:border-gray-700">
+                <tr className="border-b dark:border-gray-700 text-gray-900 dark:text-black">
                   <th className="text-left py-3">Token</th>
                   <th className="text-left py-3">Symbol</th>
                   <th className="text-right py-3">Balance</th>
@@ -265,7 +265,7 @@ export default function ProfilePage() {
               </thead>
               <tbody>
                 {heldTokens.map((token) => (
-                  <tr key={token.id} className="border-b dark:border-gray-700">
+                  <tr key={token.id} className="border-b dark:border-gray-700 text-gray-900 dark:text-black">
                     <td className="py-3">{token.name}</td>
                     <td className="py-3">{token.symbol}</td>
                     <td className="text-right py-3">{parseFloat(token.balance).toFixed(4)}</td>
@@ -289,7 +289,7 @@ export default function ProfilePage() {
       {/* Your Created Tokens Section */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Your Created Tokens</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-black">Your Dropped Tokens</h2>
           <Link 
             href="/create-token" 
             className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center shadow-md"
@@ -319,7 +319,7 @@ export default function ProfilePage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b dark:border-gray-700">
+                <tr className="border-b dark:border-gray-700 text-gray-900 dark:text-black">
                   <th className="text-left py-3">Token</th>
                   <th className="text-left py-3">Symbol</th>
                   <th className="text-right py-3">Market Cap</th>
@@ -329,7 +329,7 @@ export default function ProfilePage() {
               </thead>
               <tbody>
                 {userTokens.map((token) => (
-                  <tr key={token.id} className="border-b dark:border-gray-700">
+                  <tr key={token.id} className="border-b dark:border-gray-700 text-gray-900 dark:text-black">
                     <td className="py-3">{token.name}</td>
                     <td className="py-3">{token.symbol}</td>
                     <td className="text-right py-3">{formatMarketCap(token.marketCap)}</td>

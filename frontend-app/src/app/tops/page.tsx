@@ -142,8 +142,8 @@ export default function TopsPage() {
           <button 
             className={`px-4 py-2 rounded-lg transition-colors ${
               sortCriteria === 'marketCap' 
-                ? 'bg-indigo-600 text-white' 
-                : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
+                ? 'bg-indigo-600 text-white dark:bg-indigo-600 dark:text-black' 
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
             onClick={() => handleSort('marketCap')}
           >
@@ -152,8 +152,8 @@ export default function TopsPage() {
           <button 
             className={`px-4 py-2 rounded-lg transition-colors ${
               sortCriteria === 'volume' 
-                ? 'bg-indigo-600 text-white' 
-                : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
+                ? 'bg-indigo-600 text-white dark:bg-indigo-600 dark:text-black' 
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
             onClick={() => handleSort('volume')}
           >
@@ -162,8 +162,8 @@ export default function TopsPage() {
           <button 
             className={`px-4 py-2 rounded-lg transition-colors ${
               sortCriteria === 'priceChange' 
-                ? 'bg-indigo-600 text-white' 
-                : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
+                ? 'bg-indigo-600 text-white dark:bg-indigo-600 dark:text-black' 
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
             onClick={() => handleSort('priceChange')}
           >
