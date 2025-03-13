@@ -49,17 +49,6 @@ const Navbar = () => {
       },
       blockExplorerUrl: 'https://testnet.monadexplorer.com/'
     },
-    { 
-      name: 'Ethereum Mainnet', 
-      chainId: 1, 
-      rpcUrl: 'https://mainnet.infura.io/v3/your-infura-key',
-      nativeCurrency: {
-        name: 'Ethereum',
-        symbol: 'ETH',
-        decimals: 18
-      },
-      blockExplorerUrl: 'https://etherscan.io'
-    },
   ];
 
   // Check if wallet is already connected on component mount
