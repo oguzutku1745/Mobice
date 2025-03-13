@@ -168,29 +168,27 @@ export default function ProfilePage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Profile</h1>
+      <h1 className="text-3xl font-bold mb-8 text-heading">Profile</h1>
       
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+      <div className="bg-card rounded-lg shadow-md p-6 mb-8">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
           <div className="w-24 h-24 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
             {walletAddress.substring(2, 4).toUpperCase()}
           </div>
           
           <div>
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-black">Wallet Address</h2>
-            <p className="text-gray-600 dark:text-gray-300 font-mono mb-4 bg-gray-100 dark:bg-gray-700 p-2 rounded-lg">
+            <h2 className="text-xl font-semibold mb-2 text-heading">Wallet Address</h2>
+            <p className="text-secondary font-mono mb-4 bg-highlight p-2 rounded-lg">
               {walletAddress}
             </p>
             
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
               <div>
-                <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-black">Balance</h2>
-                <p className="text-gray-600 dark:text-gray-300">
+                <h2 className="text-xl font-semibold mb-2 text-heading">Balance</h2>
+                <p className="text-secondary">
                   <span className="font-bold text-2xl">{balance}</span> {networkInfo?.name === 'MONAD Testnet' ? 'MON' : 'ETH'}
                 </p>
               </div>
-              
-            
             </div>
             
             <button 
@@ -223,12 +221,12 @@ export default function ProfilePage() {
       </div>
       
       {/* Tokens Held Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+      <div className="bg-card rounded-lg shadow-md p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-black">Your Token Holdings</h2>
+          <h2 className="text-xl font-semibold text-heading">Your Token Holdings</h2>
           <Link 
             href="/" 
-            className="text-indigo-600 hover:text-indigo-800 font-medium flex items-center"
+            className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium flex items-center"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
@@ -242,8 +240,8 @@ export default function ProfilePage() {
             <div className="w-10 h-10 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : heldTokens.length === 0 ? (
-          <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 text-center">
-            <p className="text-gray-600 dark:text-gray-300 mb-4">You don't hold any tokens yet.</p>
+          <div className="bg-highlight rounded-lg p-6 text-center">
+            <p className="text-secondary mb-4">You don't hold any tokens yet.</p>
             <Link 
               href="/" 
               className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
@@ -255,7 +253,7 @@ export default function ProfilePage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b dark:border-gray-700 text-gray-900 dark:text-black">
+                <tr className="border-b border-theme text-heading">
                   <th className="text-left py-3">Token</th>
                   <th className="text-left py-3">Symbol</th>
                   <th className="text-right py-3">Balance</th>
@@ -265,7 +263,7 @@ export default function ProfilePage() {
               </thead>
               <tbody>
                 {heldTokens.map((token) => (
-                  <tr key={token.id} className="border-b dark:border-gray-700 text-gray-900 dark:text-black">
+                  <tr key={token.id} className="border-b border-theme text-card-text">
                     <td className="py-3">{token.name}</td>
                     <td className="py-3">{token.symbol}</td>
                     <td className="text-right py-3">{parseFloat(token.balance).toFixed(4)}</td>
@@ -273,7 +271,7 @@ export default function ProfilePage() {
                     <td className="text-right py-3">
                       <Link 
                         href={`/token/${token.id}`}
-                        className="text-indigo-600 hover:text-indigo-800 font-medium"
+                        className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium"
                       >
                         Trade
                       </Link>
@@ -287,9 +285,9 @@ export default function ProfilePage() {
       </div>
       
       {/* Your Created Tokens Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+      <div className="bg-card rounded-lg shadow-md p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-black">Your Dropped Tokens</h2>
+          <h2 className="text-xl font-semibold text-heading">Your Dropped Tokens</h2>
           <Link 
             href="/create-token" 
             className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center shadow-md"
@@ -306,8 +304,8 @@ export default function ProfilePage() {
             <div className="w-10 h-10 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : userTokens.length === 0 ? (
-          <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 text-center">
-            <p className="text-gray-600 dark:text-gray-300 mb-4">You haven't created any tokens yet.</p>
+          <div className="bg-highlight rounded-lg p-6 text-center">
+            <p className="text-secondary mb-4">You haven't created any tokens yet.</p>
             <Link 
               href="/create-token" 
               className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
@@ -319,7 +317,7 @@ export default function ProfilePage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b dark:border-gray-700 text-gray-900 dark:text-black">
+                <tr className="border-b border-theme text-heading">
                   <th className="text-left py-3">Token</th>
                   <th className="text-left py-3">Symbol</th>
                   <th className="text-right py-3">Market Cap</th>
@@ -329,17 +327,17 @@ export default function ProfilePage() {
               </thead>
               <tbody>
                 {userTokens.map((token) => (
-                  <tr key={token.id} className="border-b dark:border-gray-700 text-gray-900 dark:text-black">
+                  <tr key={token.id} className="border-b border-theme text-card-text">
                     <td className="py-3">{token.name}</td>
                     <td className="py-3">{token.symbol}</td>
                     <td className="text-right py-3">{formatMarketCap(token.marketCap)}</td>
                     <td className="text-right py-3">
                       {token.migrated ? (
-                        <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                        <span className="inline-block bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs px-2 py-1 rounded-full">
                           Migrated
                         </span>
                       ) : (
-                        <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                        <span className="inline-block bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs px-2 py-1 rounded-full">
                           Active
                         </span>
                       )}
@@ -347,7 +345,7 @@ export default function ProfilePage() {
                     <td className="text-right py-3">
                       <Link 
                         href={`/token/${token.id}`}
-                        className="text-indigo-600 hover:text-indigo-800 font-medium"
+                        className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium"
                       >
                         View
                       </Link>

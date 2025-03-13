@@ -621,9 +621,9 @@ export default function TokenDetailPage() {
         </div>
       )}
       
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-card rounded-lg shadow-lg overflow-hidden">
         {/* Token Header */}
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-6 border-b border-theme">
           <div className="flex items-center">
             {token.imageUrl ? (
               <img 
@@ -642,16 +642,16 @@ export default function TokenDetailPage() {
               </div>
             )}
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-black">{token.name} ({token.symbol})</h1>
-              <p className="text-gray-600 dark:text-gray-400">Created on {formatCreationTime(token.creationTime)}</p>
+              <h1 className="text-3xl font-bold text-heading">{token.name} ({token.symbol})</h1>
+              <p className="text-secondary">Created on {formatCreationTime(token.creationTime)}</p>
               
               {/* Migration Status Badge */}
               {token.migrated ? (
-                <div className="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                <div className="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                   Migrated to Liquidity Pool
                 </div>
               ) : (
-                <div className="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <div className="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
                   Active Bonding Curve
                 </div>
               )}
@@ -686,107 +686,28 @@ export default function TokenDetailPage() {
         {/* Token Details */}
         <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-black">About</h2>
-            <p className="text-gray-700 dark:text-gray-300">{token.description}</p>
+            <h2 className="text-xl font-semibold mb-4 text-heading">About</h2>
+            <p className="text-card-text">{token.description}</p>
             
             <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-black">Market Cap</h3>
+              <h3 className="text-lg font-semibold mb-2 text-heading">Market Cap</h3>
               <div className="flex items-center">
                 <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mr-2">
                   {formatMarketCap(token.marketCap)}
                 </p>
-                
-                {/*walletConnected && (
-                  <button 
-                    onClick={async () => {
-                      try {
-                        const { signer } = await getProviderAndSigner();
-                        if (!signer) return;
-                        
-                        // Create contract instance for the token
-                        const tokenAbi = [
-                          "function buy(uint256 tokenAmount) external payable",
-                          "function getPrice(uint256 tokenAmount) external view returns (uint256)",
-                          "function virtualTokens() external view returns (uint256)",
-                          "function virtualETH() external view returns (uint256)"
-                        ];
-                        const tokenContract = new ethers.Contract(token.id, tokenAbi, signer);
-                        
-                        // Get current state
-                        const [virtualTokens, virtualETH] = await Promise.all([
-                          tokenContract.virtualTokens(),
-                          tokenContract.virtualETH()
-                        ]);
-                        
-                        console.log("Current virtualTokens:", formatEther(virtualTokens));
-                        console.log("Current virtualETH:", formatEther(virtualETH));
-                        
-                        // Set a test buy amount (2 ETH)
-                        const ethToSpend = parseEther("2");
-                        console.log("ETH to spend:", formatEther(ethToSpend));
-                        
-                        // Calculate k = virtualTokens * virtualETH
-                        const k = (BigInt(virtualTokens) * BigInt(virtualETH)) / BigInt(10**18);
-                        console.log("k value:", formatEther(k));
-                        
-                        // Calculate new virtualETH after our purchase
-                        const newVirtualETH = BigInt(virtualETH) + BigInt(ethToSpend);
-                        
-                        // Calculate new virtualTokens after our purchase
-                        const newVirtualTokens = (BigInt(k) * BigInt(10**18)) / BigInt(newVirtualETH);
-                        
-                        // Calculate token amount to buy
-                        const tokensToBuy = BigInt(virtualTokens) - BigInt(newVirtualTokens);
-                        
-                        // Apply a safety margin (95% of calculated amount)
-                        const safeTokensToBuy = BigInt(tokensToBuy) * BigInt(95) / BigInt(100);
-                        
-                        console.log("Calculated tokens to buy:", formatEther(tokensToBuy));
-                        console.log("Safe tokens to buy:", formatEther(safeTokensToBuy));
-                        
-                        // Get the actual cost for these tokens
-                        const actualCost = await tokenContract.getPrice(safeTokensToBuy);
-                        console.log(`Actual cost for ${formatEther(safeTokensToBuy)} tokens: ${formatEther(actualCost)} ETH`);
-                        
-                        // Add a buffer for price changes
-                        const ethToSend = BigInt(actualCost) * BigInt(105) / BigInt(100);
-                        console.log(`Sending ${formatEther(ethToSend)} ETH to buy tokens`);
-                        
-                        // Buy tokens
-                        const tx = await tokenContract.buy(safeTokensToBuy, {
-                          value: ethToSend,
-                          gasLimit: 1000000
-                        });
-                        
-                        console.log("Test buy submitted:", tx.hash);
-                        await tx.wait();
-                        console.log("Test buy confirmed");
-                        
-                        // Refresh market cap
-                        await fetchDirectMarketCap();
-                        await fetchUserBalance(token.id);
-                      } catch (error) {
-                        console.error("Test buy error:", error);
-                      }
-                    }}
-                    className="bg-green-500 hover:bg-green-600 text-white text-sm px-2 py-1 rounded-md"
-                  >
-                    Test Buy
-                  </button>
-                )*/}
               </div>
             </div>
             
             {walletConnected && (
               <div className="mt-6">
-                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-black">Your Balance</h3>
+                <h3 className="text-lg font-semibold mb-2 text-heading">Your Balance</h3>
                 <div className="flex items-center">
                   {userBalance.startsWith("You are the owner") ? (
                     <div>
                       <p className="text-amber-600 dark:text-amber-400 mb-2">
                         {userBalance}
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-sm text-secondary">
                         As the owner, you initially hold all tokens. When users buy tokens, they are transferred from your balance.
                       </p>
                     </div>
@@ -801,11 +722,11 @@ export default function TokenDetailPage() {
           </div>
           
           {/* Trading Panel */}
-          <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-black">Trade {token.symbol}</h2>
+          <div className="bg-highlight p-6 rounded-lg">
+            <h2 className="text-xl font-semibold mb-4 text-heading">Trade {token.symbol}</h2>
             
             {token.migrated ? (
-              <div className="bg-blue-100 dark:bg-blue-800 p-4 rounded-lg mb-4">
+              <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg mb-4">
                 <p className="text-blue-800 dark:text-blue-200">
                   This token has been migrated to a liquidity pool. You can now trade it on Uniswap.
                 </p>
@@ -814,14 +735,14 @@ export default function TokenDetailPage() {
                     href={`https://monad-sepolia.etherscan.io/address/${token.pairAddress}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2 inline-block text-blue-600 hover:text-blue-800 font-medium"
+                    className="mt-2 inline-block text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-200 font-medium"
                   >
                     View Liquidity Pool →
                   </a>
                 )}
               </div>
             ) : !walletConnected ? (
-              <div className="bg-yellow-100 dark:bg-yellow-800 p-4 rounded-lg mb-4">
+              <div className="bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg mb-4">
                 <p className="text-yellow-800 dark:text-yellow-200">
                   Connect your wallet to trade this token
                 </p>
@@ -830,14 +751,14 @@ export default function TokenDetailPage() {
               <>
                 {/* Buy Panel */}
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-black">Buy {token.symbol}</h3>
+                  <h3 className="text-lg font-semibold mb-2 text-heading">Buy {token.symbol}</h3>
                   <div className="flex items-center">
                     <input
                       type="number"
                       value={buyAmount}
                       onChange={(e) => setBuyAmount(e.target.value)}
                       placeholder="MON amount"
-                      className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 p-2 border border-theme rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-card text-card-text"
                       disabled={transactionPending}
                     />
                     <button
@@ -852,14 +773,14 @@ export default function TokenDetailPage() {
                 
                 {/* Sell Panel */}
                 <div>
-                  <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-black">Sell {token.symbol}</h3>
+                  <h3 className="text-lg font-semibold mb-2 text-heading">Sell {token.symbol}</h3>
                   <div className="flex items-center">
                     <input
                       type="number"
                       value={sellAmount}
                       onChange={(e) => setSellAmount(e.target.value)}
                       placeholder={`${token.symbol} amount`}
-                      className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 p-2 border border-theme rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-card text-card-text"
                       disabled={transactionPending}
                     />
                     <button

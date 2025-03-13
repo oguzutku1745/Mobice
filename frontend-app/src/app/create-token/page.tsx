@@ -181,28 +181,28 @@ export default function CreateTokenPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-4">
-        <Link href="/" className="text-blue-500 hover:underline">
+        <Link href="/" className="text-blue-500 hover:underline dark:text-blue-400">
           ← Back to Home
         </Link>
       </div>
       
-      <h1 className="text-3xl font-bold mb-8">Create a Bonding Curve Token</h1>
+      <h1 className="text-3xl font-bold mb-8 text-heading">Create a Bonding Curve Token</h1>
       
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 max-w-2xl mx-auto">
+      <div className="bg-card rounded-lg shadow-md p-6 max-w-2xl mx-auto">
         {error && (
-          <div className="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+          <div className="mb-6 bg-red-100 border border-red-400 text-red-700 dark:bg-red-900 dark:border-red-700 dark:text-red-200 px-4 py-3 rounded relative">
             <strong className="font-bold">Error: </strong>
             <span className="block sm:inline">{error}</span>
           </div>
         )}
         
         {success && (
-          <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+          <div className="mb-6 bg-green-100 border border-green-400 text-green-700 dark:bg-green-900 dark:border-green-700 dark:text-green-200 px-4 py-3 rounded relative">
             <strong className="font-bold">Success! </strong>
             <span className="block sm:inline">{success.message}</span>
             {success.tokenAddress && (
               <div className="mt-2">
-                <Link href={`/token/${success.tokenAddress}`} className="text-green-600 hover:text-green-800 font-medium">
+                <Link href={`/token/${success.tokenAddress}`} className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 font-medium">
                   View your token →
                 </Link>
               </div>
@@ -211,8 +211,8 @@ export default function CreateTokenPage() {
         )}
         
         <form onSubmit={handleSubmit}>
-          <div className="mb-6  text-gray-900 dark:text-black">
-            <label htmlFor="name" className="block text-sm font-medium mb-2">
+          <div className="mb-6">
+            <label htmlFor="name" className="block text-sm font-medium mb-2 text-heading">
               Token Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -221,14 +221,14 @@ export default function CreateTokenPage() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700"
+              className="w-full px-4 py-2 border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-card text-card-text"
               placeholder="e.g., Monad Token"
               required
             />
           </div>
           
-          <div className="mb-6 text-gray-900 dark:text-black">
-            <label htmlFor="symbol" className="block text-sm font-medium mb-2">
+          <div className="mb-6">
+            <label htmlFor="symbol" className="block text-sm font-medium mb-2 text-heading">
               Token Symbol <span className="text-red-500">*</span>
             </label>
             <input
@@ -237,17 +237,17 @@ export default function CreateTokenPage() {
               name="symbol"
               value={formData.symbol}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700"
+              className="w-full px-4 py-2 border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-card text-card-text"
               placeholder="e.g., MND"
               required
             />
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-secondary">
               Usually 3-4 characters (e.g., BTC, ETH, USDT)
             </p>
           </div>
           
-          <div className="mb-6 text-gray-900 dark:text-black">
-            <label htmlFor="description" className="block text-sm font-medium mb-2">
+          <div className="mb-6">
+            <label htmlFor="description" className="block text-sm font-medium mb-2 text-heading">
               Description <span className="text-red-500">*</span>
             </label>
             <textarea
@@ -255,67 +255,80 @@ export default function CreateTokenPage() {
               name="description"
               value={formData.description}
               onChange={handleChange}
+              className="w-full px-4 py-2 border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-card text-card-text"
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700"
-              placeholder="Describe your token..."
+              placeholder="Describe your token and its purpose..."
               required
-            />
+            ></textarea>
           </div>
           
-          <div className="mb-8 text-gray-900 dark:text-black">
-            <label className="block text-sm font-medium mb-2">
+          <div className="mb-6">
+            <label className="block text-sm font-medium mb-2 text-heading">
               Token Logo <span className="text-red-500">*</span>
             </label>
             
             <div className="flex space-x-4 mb-4">
               <button
                 type="button"
+                onClick={() => setLogoInputType('url')}
+                className={`px-4 py-2 rounded-lg ${
+                  logoInputType === 'url'
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-highlight text-card-text'
+                }`}
+              >
+                Use URL
+              </button>
+              <button
+                type="button"
                 onClick={() => setLogoInputType('file')}
-                className={`px-3 py-1 rounded-md ${
-                  logoInputType === 'file' 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-gray-200 dark:bg-gray-700'
+                className={`px-4 py-2 rounded-lg ${
+                  logoInputType === 'file'
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-highlight text-card-text'
                 }`}
               >
                 Upload File
               </button>
-              <button
-                type="button"
-                onClick={() => setLogoInputType('url')}
-                className={`px-3 py-1 rounded-md ${
-                  logoInputType === 'url' 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'bg-gray-200 dark:bg-gray-700'
-                }`}
-              >
-                Provide URL
-              </button>
             </div>
             
-            <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
-                {formData.logo ? (
-                  <Image src={formData.logo} alt="Token logo" width={64} height={64} />
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+            {logoInputType === 'url' ? (
+              <div>
+                <div className="flex">
+                  <input
+                    type="text"
+                    value={logoUrl}
+                    onChange={handleLogoUrlChange}
+                    className="flex-1 px-4 py-2 border border-theme rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-card text-card-text"
+                    placeholder="https://example.com/logo.png"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleLogoUrlSubmit}
+                    disabled={isUploading}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-r-lg disabled:opacity-50"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                )}
+                    {isUploading ? 'Loading...' : 'Use This URL'}
+                  </button>
+                </div>
+                <p className="mt-1 text-sm text-secondary">
+                  Provide a direct link to your logo image (PNG, JPG, or GIF)
+                </p>
               </div>
-              
-              {logoInputType === 'file' ? (
-                <div className="flex-1">
+            ) : (
+              <div>
+                <div className="flex items-center">
+                  <button
+                    type="button"
+                    onClick={triggerFileInput}
+                    disabled={isUploading}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
+                  >
+                    {isUploading ? 'Uploading...' : 'Choose File'}
+                  </button>
+                  <span className="ml-3 text-sm text-secondary">
+                    {formData.logo ? 'File selected' : 'No file chosen'}
+                  </span>
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -323,58 +336,43 @@ export default function CreateTokenPage() {
                     className="hidden"
                     accept="image/*"
                   />
-                  <button
-                    type="button"
-                    onClick={triggerFileInput}
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    disabled={isUploading}
-                  >
-                    {isUploading ? 'Uploading...' : 'Choose File'}
-                  </button>
                 </div>
-              ) : (
-                <div className="flex-1 flex flex-col">
-                  <div className="flex">
-                    <input
-                      type="text"
-                      value={logoUrl}
-                      onChange={handleLogoUrlChange}
-                      placeholder="Enter image URL"
-                      className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleLogoUrlSubmit}
-                      className="px-4 py-2 bg-indigo-600 text-white rounded-r-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                      disabled={isUploading || !logoUrl}
-                    >
-                      {isUploading ? 'Validating...' : 'Use URL'}
-                    </button>
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">
-                    For Imgur: Use direct image links (i.imgur.com/IMAGEID.jpg) instead of gallery links (imgur.com/a/...)
-                  </p>
+                <p className="mt-1 text-sm text-secondary">
+                  Recommended: 200x200 pixels, PNG or JPG format
+                </p>
+              </div>
+            )}
+            
+            {formData.logo && (
+              <div className="mt-4">
+                <p className="text-sm font-medium mb-2 text-heading">Preview:</p>
+                <div className="w-20 h-20 rounded-full overflow-hidden border border-theme">
+                  <img
+                    src={formData.logo}
+                    alt="Token logo preview"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-              )}
-            </div>
-            <p className="mt-2 text-sm text-gray-500">
-              Recommended: Square image, at least 200x200 pixels
-            </p>
+              </div>
+            )}
           </div>
           
-          <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg mb-6">
-            <h3 className="text-lg font-semibold mb-2 text-blue-800 dark:text-blue-200">About Bonding Curve Tokens</h3>
-            <p className="text-blue-700 dark:text-blue-300 text-sm">
-              Bonding curve tokens use an automated market maker mechanism where the price increases as more tokens are purchased.
-              When you create a token, you'll be the owner and can migrate it to a liquidity pool once it reaches sufficient adoption.
-            </p>
+          <div className="bg-highlight p-4 rounded-lg mb-6">
+            <h3 className="text-sm font-medium mb-2 text-heading">Important Information</h3>
+            <ul className="list-disc list-inside text-sm text-card-text">
+              <li>Your token will be created on the Monad Testnet.</li>
+              <li>Initial token supply will be allocated to your wallet.</li>
+              <li>The bonding curve uses a constant product formula (x*y=k).</li>
+              <li>Once created, the token parameters cannot be changed.</li>
+              <li>A small gas fee will be required to create your token.</li>
+            </ul>
           </div>
           
           <div className="flex justify-end">
             <button
               type="submit"
-              className="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50"
               disabled={isCreating}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg shadow-md disabled:opacity-50"
             >
               {isCreating ? 'Creating Token...' : 'Create Token'}
             </button>
