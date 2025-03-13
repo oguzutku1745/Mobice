@@ -1,0 +1,31 @@
+{
+  "factoryAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+  "routerAddress": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  "tokens": [
+    {
+      "name": "MonadCoin",
+      "symbol": "MND",
+      "address": "0x75537828f2ce51be7289709686A69CbFDbB714F1"
+    },
+    {
+      "name": "DeFiToken",
+      "symbol": "DFI",
+      "address": "0xE451980132E65465d0a498c53f0b5227326Dd73F"
+    },
+    {
+      "name": "GameFi",
+      "symbol": "GAME",
+      "address": "0x5392A33F7F677f59e833FEBF4016cDDD88fF9E67"
+    },
+    {
+      "name": "NFTMarket",
+      "symbol": "NFTM",
+      "address": "0xa783CDc72e34a174CCa57a6d9a74904d0Bec05A9"
+    },
+    {
+      "name": "ArtistToken",
+      "symbol": "ART",
+      "address": "0xB30dAf0240261Be564Cea33260F01213c47AAa0D"
+    }
+  ]
+}
