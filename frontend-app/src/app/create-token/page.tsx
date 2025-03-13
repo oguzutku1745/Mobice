@@ -212,7 +212,7 @@ export default function CreateTokenPage() {
         
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
-            <label htmlFor="name" className="block text-sm font-medium mb-2 text-heading">
+            <label htmlFor="name" className="block text-sm font-bold mb-2 text-heading">
               Token Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -228,7 +228,7 @@ export default function CreateTokenPage() {
           </div>
           
           <div className="mb-6">
-            <label htmlFor="symbol" className="block text-sm font-medium mb-2 text-heading">
+            <label htmlFor="symbol" className="block text-sm font-bold mb-2 text-heading">
               Token Symbol <span className="text-red-500">*</span>
             </label>
             <input
@@ -247,7 +247,7 @@ export default function CreateTokenPage() {
           </div>
           
           <div className="mb-6">
-            <label htmlFor="description" className="block text-sm font-medium mb-2 text-heading">
+            <label htmlFor="description" className="block text-sm font-bold mb-2 text-heading">
               Description <span className="text-red-500">*</span>
             </label>
             <textarea
@@ -263,7 +263,7 @@ export default function CreateTokenPage() {
           </div>
           
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-2 text-heading">
+            <label className="block text-sm font-bold mb-2 text-heading">
               Token Logo <span className="text-red-500">*</span>
             </label>
             
@@ -345,7 +345,7 @@ export default function CreateTokenPage() {
             
             {formData.logo && (
               <div className="mt-4">
-                <p className="text-sm font-medium mb-2 text-heading">Preview:</p>
+                <p className="text-sm font-bold mb-2 text-heading">Preview:</p>
                 <div className="w-20 h-20 rounded-full overflow-hidden border border-theme">
                   <img
                     src={formData.logo}
@@ -358,7 +358,7 @@ export default function CreateTokenPage() {
           </div>
           
           <div className="bg-highlight p-4 rounded-lg mb-6">
-            <h3 className="text-sm font-medium mb-2 text-heading">Important Information</h3>
+            <h3 className="text-sm font-bold mb-2 text-heading">Important Information</h3>
             <ul className="list-disc list-inside text-sm text-card-text">
               <li>Your token will be created on the Monad Testnet.</li>
               <li>Initial token supply will be allocated to your wallet.</li>

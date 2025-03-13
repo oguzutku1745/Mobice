@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-6 px-8">
+    <footer className="bg-footer text-white py-6 px-8">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <div className="mb-4 md:mb-0">
           <p className="text-sm">© mobice 2025</p>
@@ -26,7 +26,7 @@ const Footer = () => {
           </Link>
           
           <Link 
-            href="https://github.com" 
+            href="https://github.com/oguzutku1745/mobice" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-gray-300 hover:text-white transition-colors"

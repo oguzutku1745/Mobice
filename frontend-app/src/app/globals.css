@@ -9,6 +9,15 @@
   --secondary-text: #4b5563;
   --border-color: #e5e7eb;
   --highlight-bg: #f3f4f6;
+  --gradient-from: #eef2ff;
+  --gradient-to: #e0e7ff;
+  --footer-bg: #111827;
+  --pattern-color: rgba(79, 70, 229, 0.15);
+  --pattern-size: 1px;
+  --pattern-spacing: 22px;
+  --shadow-color-1: rgba(79, 70, 229, 0.15);
+  --shadow-color-2: rgba(99, 102, 241, 0.12);
+  --shadow-color-3: rgba(129, 140, 248, 0.1);
 }
 
 @theme inline {
@@ -28,12 +37,132 @@
   --secondary-text: #9ca3af;
   --border-color: #2d2d2d;
   --highlight-bg: #2d2d2d;
+  --gradient-from: #0f172a;
+  --gradient-to: #1e293b;
+  --footer-bg: #111827;
+  --pattern-color: rgba(255, 255, 255, 0.05);
+  --pattern-size: 1px;
+  --pattern-spacing: 20px;
+  --shadow-color-1: rgba(30, 64, 175, 0.4);
+  --shadow-color-2: rgba(0, 0, 0, 0.5);
+  --shadow-color-3: rgba(59, 130, 246, 0.3);
+}
+
+html {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  position: relative;
+  background: linear-gradient(135deg, var(--gradient-from) 0%, var(--gradient-to) 100%);
+}
+
+/* Apply gradient to the main content area with enhanced styling */
+main.bg-gradient {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--gradient-from) 0%, var(--gradient-to) 100%);
+}
+
+/* Pattern overlay */
+main.bg-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(var(--pattern-color) var(--pattern-size), transparent var(--pattern-size)),
+    radial-gradient(var(--pattern-color) var(--pattern-size), transparent var(--pattern-size));
+  background-size: var(--pattern-spacing) var(--pattern-spacing);
+  background-position: 0 0, calc(var(--pattern-spacing) / 2) calc(var(--pattern-spacing) / 2);
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle shadow elements */
+main.bg-gradient::after {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: -5%;
+  width: 30%;
+  height: 40%;
+  background: radial-gradient(circle, var(--shadow-color-1) 0%, transparent 70%);
+  opacity: 0.7;
+  filter: blur(40px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Additional shadow element - using a separate element */
+.shadow-element {
+  content: "";
+  position: absolute;
+  bottom: 5%;
+  right: -5%;
+  width: 35%;
+  height: 30%;
+  background: radial-gradient(circle, var(--shadow-color-2) 0%, transparent 70%);
+  opacity: 0.6;
+  filter: blur(50px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Second shadow element for more visual interest */
+.shadow-element-2 {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 30%;
+  width: 25%;
+  height: 25%;
+  background: radial-gradient(circle, var(--shadow-color-3) 0%, transparent 80%);
+  opacity: 0.5;
+  filter: blur(60px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ensure content is above the decorative elements */
+main.bg-gradient > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Animated gradient title */
+.animated-gradient {
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Animated underline */
+.animated-underline {
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+  transition: width 0.3s ease;
+}
+
+.animated-underline:hover {
+  width: 70% !important;
 }
 
 /* Custom utility classes for theme colors */
@@ -55,4 +184,8 @@ body {
 
 .bg-highlight {
   background-color: var(--highlight-bg);
+}
+
+.bg-footer {
+  background-color: var(--footer-bg);
 }

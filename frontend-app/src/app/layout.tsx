@@ -62,7 +62,9 @@ export default function RootLayout({
           </button>
           
           <div className={`transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'} min-h-screen flex flex-col`}>
-            <main className="flex-grow pt-16 pb-8">
+            <main className="flex-grow pt-16 pb-8 bg-gradient">
+              <div className="shadow-element"></div>
+              <div className="shadow-element-2"></div>
               {children}
             </main>
             <Footer />

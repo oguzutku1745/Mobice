@@ -11,9 +11,13 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4 md:p-8 lg:p-12">
       <div className="w-full max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
-          Monad Bonding Curve Exchange
-        </h1>
+        <div className="relative mb-12 text-center">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-2 bg-gradient-to-r from-indigo-600 via-blue-500 to-purple-600 bg-clip-text text-transparent drop-shadow-sm animated-gradient">
+            Monad Bonding Curve Exchange
+          </h1>
+          <div className="h-1 w-48 md:w-64 mx-auto bg-gradient-to-r from-indigo-600 via-blue-500 to-purple-600 rounded-full animated-underline"></div>
+          <p className="mt-4 text-secondary text-lg">Trade, create, and explore bonding curve tokens on Monad</p>
+        </div>
         
         <div className="grid grid-cols-1 gap-8">
           {/* Trending Tokens Section */}
