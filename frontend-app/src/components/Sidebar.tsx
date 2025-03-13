@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect } from 'react';
 
 interface SidebarProps {
@@ -46,11 +47,18 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
           isOpen ? 'w-64 translate-x-0' : 'w-64 -translate-x-full'
         }`}
       >
-        <div className="mb-8">
+        <div className="mb-8 mt-8">
           <Link href="/" className="flex items-center justify-center">
-            {/* Replace with your actual logo */}
-            <div className="w-40 h-12 bg-indigo-600 flex items-center justify-center rounded-md">
-              <span className="font-bold text-xl">MOBICE</span>
+            {/* Use the actual logo image */}
+            <div className="w-40 h-12 flex items-center justify-center">
+              <Image 
+                src="/images/logo.png" 
+                alt="Mobice Logo" 
+                width={160}
+                height={0}
+                style={{ height: 'auto' }}
+                priority
+              />
             </div>
           </Link>
         </div>

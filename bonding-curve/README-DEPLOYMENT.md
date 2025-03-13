@@ -65,7 +65,7 @@ npm run dev
 
 3. Connect your wallet to Monad Testnet in MetaMask:
    - Network Name: MONAD Testnet
-   - RPC URL: https://testnet-rpc2.monad.xyz/52227f026fa8fac9e2014c58fbf5643369b3bfc6
+   - RPC URL: https://testnet-rpc.monad.xyz/
    - Chain ID: 10143
    - Currency Symbol: MON
    - Block Explorer URL: https://testnet.monadexplorer.com/

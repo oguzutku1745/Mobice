@@ -96,15 +96,42 @@ export async function getNewestTokens(count: number = 5): Promise<TokenData[]> {
     try {
       // Get newest tokens directly as TokenMetadata structs
       console.log("Calling getNewestTokens on factory...");
-      const newestTokens = await factory.getNewestTokens();
+      
+      // Add timeout to prevent hanging on RPC issues
+      const newestTokensPromise = factory.getNewestTokens();
+      const timeoutPromise = new Promise<null>((_, reject) => 
+        setTimeout(() => reject(new Error("RPC request timed out")), 10000)
+      );
+      
+      // Race between the actual request and the timeout
+      const newestTokens = await Promise.race([newestTokensPromise, timeoutPromise]);
       console.log("Newest tokens:", newestTokens);
       
       // Get details for each token with correct market cap
       const tokenPromises = newestTokens.map(async (token: TokenMetadataStruct) => {
         try {
-          return await getTokenDetails(token.tokenAddress);
+          // Create a basic token object from the metadata in case getTokenDetails fails
+          const basicToken: TokenData = {
+            id: token.tokenAddress,
+            name: token.name,
+            symbol: token.symbol,
+            description: token.description || "No description available",
+            imageUrl: token.imageUrl || undefined,
+            creationTime: Number(token.creationTime),
+            marketCap: ethers.utils.formatEther(token.marketCap || 0),
+            migrated: token.migrated || false
+          };
+          
+          // Try to get detailed token info, but fall back to basic info if it fails
+          try {
+            const detailedToken = await getTokenDetails(token.tokenAddress);
+            return detailedToken || basicToken;
+          } catch (detailsErr) {
+            console.error(`Error getting details for token ${token.tokenAddress}:`, detailsErr);
+            return basicToken;
+          }
         } catch (err) {
-          console.error(`Error getting details for token ${token.tokenAddress}:`, err);
+          console.error(`Error processing token ${token.tokenAddress}:`, err);
           return null;
         }
       });

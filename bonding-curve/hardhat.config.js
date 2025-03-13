@@ -24,7 +24,7 @@ module.exports = {
       chainId: 1337
     },
     monadTestnet: {
-      url: "https://testnet-rpc2.monad.xyz/52227f026fa8fac9e2014c58fbf5643369b3bfc6",
+      url: "https://testnet-rpc.monad.xyz/",
       chainId: 10143,
       accounts: [`0x${PRIVATE_KEY}`],
       gasPrice: 50000000000, // 20 gwei

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { getProviderAndSigner } from '../utils/blockchain';
+import ThemeToggle from './ThemeToggle';
 
 // Define network interface
 interface Network {
@@ -40,7 +41,7 @@ const Navbar = () => {
     { 
       name: 'MONAD Testnet', 
       chainId: 10143, 
-      rpcUrl: 'https://testnet-rpc2.monad.xyz/52227f026fa8fac9e2014c58fbf5643369b3bfc6',
+      rpcUrl: 'https://testnet-rpc.monad.xyz/',
       nativeCurrency: {
         name: 'MON',
         symbol: 'MON',
@@ -288,68 +289,68 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 right-0 p-4 z-50">
-      {isConnected ? (
-        <div className="flex items-center space-x-4">
-          <div className="relative" ref={dropdownRef}>
-            <button 
-              onClick={() => setIsNetworkDropdownOpen(!isNetworkDropdownOpen)}
-              className="bg-gradient-to-r from-blue-500 to-teal-400 text-white py-2 px-4 rounded-lg shadow-md font-medium flex items-center"
-            >
-              <div className="h-2 w-2 rounded-full bg-green-400 mr-2 animate-pulse"></div>
-              <span>{networkInfo?.name || 'Unknown Network'}</span>
-              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            
-            {isNetworkDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                <div className="py-1" role="menu" aria-orientation="vertical">
-                  {networks.map((network) => (
-                    <button
-                      key={network.chainId}
-                      onClick={() => handleNetworkSwitch(network.chainId)}
-                      className={`block w-full text-left px-4 py-2 text-sm ${
-                        networkInfo?.chainId === network.chainId
-                          ? 'bg-gray-100 text-gray-900 font-medium'
-                          : 'text-gray-700 hover:bg-gray-100'
-                      }`}
-                      role="menuitem"
-                    >
-                      {network.name}
-                      {networkInfo?.chainId === network.chainId && (
-                        <span className="ml-2 text-green-500">✓</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-          
-          <div onClick={handleDisconnectWallet} className="flex flex-col items-end">
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 px-4 rounded-lg shadow-md font-medium flex items-center cursor-pointer hover:shadow-lg transition-all">
-              <div className="h-2 w-2 rounded-full bg-green-400 mr-2 animate-pulse"></div>
-              <span>{formatAddress(walletAddress)}</span>
-            </div>
-          </div>
-          <div className="flex space-x-2">
-            <Link href="/profile">
-              <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-md">
-                Profile
+      <div className="flex items-center space-x-4">
+        {isConnected ? (
+          <>
+            <div className="relative" ref={dropdownRef}>
+              <button 
+                onClick={() => setIsNetworkDropdownOpen(!isNetworkDropdownOpen)}
+                className="bg-gradient-to-r from-blue-500 to-teal-400 text-white py-2 px-4 rounded-lg shadow-md font-medium flex items-center"
+              >
+                <div className="h-2 w-2 rounded-full bg-green-400 mr-2 animate-pulse"></div>
+                <span>{networkInfo?.name || 'Unknown Network'}</span>
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </button>
-            </Link>
-          </div>
+              
+              {isNetworkDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                  <div className="py-1" role="menu" aria-orientation="vertical">
+                    {networks.map((network) => (
+                      <button
+                        key={network.chainId}
+                        onClick={() => handleNetworkSwitch(network.chainId)}
+                        className={`block w-full text-left px-4 py-2 text-sm ${
+                          networkInfo?.chainId === network.chainId
+                            ? 'bg-gray-100 text-gray-900 font-medium'
+                            : 'text-gray-700 hover:bg-gray-100'
+                        }`}
+                        role="menuitem"
+                      >
+                        {network.name}
+                        {networkInfo?.chainId === network.chainId && (
+                          <span className="ml-2 text-green-500">✓</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            <div onClick={handleDisconnectWallet} className="flex flex-col items-end">
+              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 px-4 rounded-lg shadow-md font-medium flex items-center cursor-pointer hover:shadow-lg transition-all">
+                <div className="h-2 w-2 rounded-full bg-green-400 mr-2 animate-pulse"></div>
+                <span>{formatAddress(walletAddress)}</span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <button 
+            onClick={handleConnectWallet}
+            disabled={isConnecting}
+            className={`bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium py-2 px-6 rounded-lg transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ${isConnecting ? 'opacity-70 cursor-not-allowed' : ''}`}
+          >
+            {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+          </button>
+        )}
+        
+        {/* Theme toggle - always visible */}
+        <div className="flex">
+          <ThemeToggle />
         </div>
-      ) : (
-        <button 
-          onClick={handleConnectWallet}
-          disabled={isConnecting}
-          className={`bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium py-2 px-6 rounded-lg transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ${isConnecting ? 'opacity-70 cursor-not-allowed' : ''}`}
-        >
-          {isConnecting ? 'Connecting...' : 'Connect Wallet'}
-        </button>
-      )}
+      </div>
     </nav>
   );
 };

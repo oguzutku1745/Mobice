@@ -38,7 +38,7 @@ const TokenCard = ({ id, name, marketCap, creationTime, description }: TokenCard
         </div>
         
         <div className="p-4">
-          <h3 className="text-lg font-semibold mb-1">{name}</h3>
+          <h3 className="text-lg font-semibold mb-1 text-gray-900 dark:text-white">{name}</h3>
           
           <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-2">
             <span>Market Cap: {marketCap} MON</span>

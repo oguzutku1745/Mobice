@@ -11,8 +11,8 @@ export const monadTestnet = defineChain({
     decimals: 18,
   },
   rpcUrls: {
-    default: { http: ["https://testnet-rpc2.monad.xyz/52227f026fa8fac9e2014c58fbf5643369b3bfc6"] },
-    public: { http: ["https://testnet-rpc2.monad.xyz/52227f026fa8fac9e2014c58fbf5643369b3bfc6"] }
+    default: { http: ["https://testnet-rpc.monad.xyz/"] },
+    public: { http: ["https://testnet-rpc.monad.xyz/"] }
   },
   blockExplorers: {
     default: {
