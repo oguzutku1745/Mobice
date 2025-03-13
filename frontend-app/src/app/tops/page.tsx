@@ -1,144 +1,102 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TokenCard from "@/components/TokenCard";
+import { getAllTokens, formatCreationTime, TokenData } from '@/utils/tokenUtils';
 
-// Mock data for top tokens
-const initialTopTokens = [
-  {
-    id: "1",
-    name: "MonadCoin",
-    marketCap: "$1.2M",
-    marketCapValue: 1200000,
-    volume: "$450K",
-    volumeValue: 450000,
-    priceChange: "+15%",
-    priceChangeValue: 15,
-    creationTime: "2 days ago",
-    description: "The native token of the Monad ecosystem with high TPS and low fees.",
-    imageUrl: "/images/token1.png",
-  },
-  {
-    id: "2",
-    name: "DeFiToken",
-    marketCap: "$890K",
-    marketCapValue: 890000,
-    volume: "$320K",
-    volumeValue: 320000,
-    priceChange: "+8%",
-    priceChangeValue: 8,
-    creationTime: "5 days ago",
-    description: "A decentralized finance token built on Monad blockchain.",
-    imageUrl: "/images/token2.png",
-  },
-  {
-    id: "3",
-    name: "GameFi",
-    marketCap: "$750K",
-    marketCapValue: 750000,
-    volume: "$280K",
-    volumeValue: 280000,
-    priceChange: "+12%",
-    priceChangeValue: 12,
-    creationTime: "1 week ago",
-    description: "Gaming meets DeFi with this innovative token.",
-    imageUrl: "/images/token3.png",
-  },
-  {
-    id: "4",
-    name: "NFTMarket",
-    marketCap: "$650K",
-    marketCapValue: 650000,
-    volume: "$210K",
-    volumeValue: 210000,
-    priceChange: "+5%",
-    priceChangeValue: 5,
-    creationTime: "2 weeks ago",
-    description: "The token powering the largest NFT marketplace on Monad.",
-    imageUrl: "/images/token4.png",
-  },
-  {
-    id: "5",
-    name: "ArtistToken",
-    marketCap: "$120K",
-    marketCapValue: 120000,
-    volume: "$85K",
-    volumeValue: 85000,
-    priceChange: "+20%",
-    priceChangeValue: 20,
-    creationTime: "12 hours ago",
-    description: "Supporting digital artists through blockchain technology.",
-    imageUrl: "/images/token5.png",
-  },
-  {
-    id: "6",
-    name: "SocialFi",
-    marketCap: "$95K",
-    marketCapValue: 95000,
-    volume: "$65K",
-    volumeValue: 65000,
-    priceChange: "+18%",
-    priceChangeValue: 18,
-    creationTime: "18 hours ago",
-    description: "Decentralized social media platform token.",
-    imageUrl: "/images/token6.png",
-  },
-  {
-    id: "7",
-    name: "DataDAO",
-    marketCap: "$85K",
-    marketCapValue: 85000,
-    volume: "$40K",
-    volumeValue: 40000,
-    priceChange: "+7%",
-    priceChangeValue: 7,
-    creationTime: "1 day ago",
-    description: "Decentralized data marketplace and governance token.",
-    imageUrl: "/images/token7.png",
-  },
-  {
-    id: "8",
-    name: "PrivacyCoin",
-    marketCap: "$75K",
-    marketCapValue: 75000,
-    volume: "$30K",
-    volumeValue: 30000,
-    priceChange: "+3%",
-    priceChangeValue: 3,
-    creationTime: "1 day ago",
-    description: "Enhanced privacy features for blockchain transactions.",
-    imageUrl: "/images/token8.png",
-  },
-];
-
-type SortCriteria = 'marketCap' | 'volume' | 'priceChange';
+type SortCriteria = 'marketCap' | 'volume' | 'priceChange' | 'migrated';
 
 export default function TopsPage() {
   const [sortCriteria, setSortCriteria] = useState<SortCriteria>('marketCap');
-  const [topTokens, setTopTokens] = useState(initialTopTokens);
+  const [tokens, setTokens] = useState<TokenData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchTokens = async () => {
+    try {
+      setLoading(true);
+      const allTokens = await getAllTokens();
+      setTokens(allTokens);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching tokens:", err);
+      setError("Failed to load tokens. Please try again later.");
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTokens();
+  }, []);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchTokens();
+  };
 
   const handleSort = (criteria: SortCriteria) => {
     setSortCriteria(criteria);
-    
-    const sortedTokens = [...initialTopTokens].sort((a, b) => {
-      if (criteria === 'marketCap') {
-        return b.marketCapValue - a.marketCapValue;
-      } else if (criteria === 'volume') {
-        return b.volumeValue - a.volumeValue;
+  };
+
+  // Filter and sort tokens based on the selected criteria
+  const getSortedTokens = () => {
+    if (tokens.length === 0) return [];
+
+    // For migrated filter, only show migrated tokens
+    if (sortCriteria === 'migrated') {
+      return tokens.filter(token => token.migrated === true)
+        .sort((a, b) => parseFloat(b.marketCap) - parseFloat(a.marketCap));
+    }
+
+    // For other criteria, sort accordingly
+    return [...tokens].sort((a, b) => {
+      if (sortCriteria === 'marketCap') {
+        return parseFloat(b.marketCap) - parseFloat(a.marketCap);
+      } else if (sortCriteria === 'volume') {
+        // Since we don't have volume data yet, fallback to market cap
+        return parseFloat(b.marketCap) - parseFloat(a.marketCap);
       } else {
-        return b.priceChangeValue - a.priceChangeValue;
+        // For priceChange, we don't have this data yet, so fallback to creation time (newest first)
+        return b.creationTime - a.creationTime;
       }
     });
-    
-    setTopTokens(sortedTokens);
   };
+
+  const sortedTokens = getSortedTokens();
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Top Tokens</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Top Tokens</h1>
+        <button 
+          onClick={handleRefresh}
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center"
+          disabled={loading || refreshing}
+        >
+          {refreshing ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Refreshing...
+            </>
+          ) : (
+            <>
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Refresh
+            </>
+          )}
+        </button>
+      </div>
       
       <div className="mb-8">
-        <div className="flex space-x-4 mb-6">
+        <div className="flex flex-wrap space-x-2 space-y-2 sm:space-y-0 mb-6">
           <button 
             className={`px-4 py-2 rounded-lg transition-colors ${
               sortCriteria === 'marketCap' 
@@ -169,21 +127,49 @@ export default function TopsPage() {
           >
             Price Change
           </button>
+          <button 
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              sortCriteria === 'migrated' 
+                ? 'bg-indigo-600 text-white dark:bg-indigo-600 dark:text-black' 
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
+            }`}
+            onClick={() => handleSort('migrated')}
+          >
+            Migrated
+          </button>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {topTokens.map((token) => (
-            <TokenCard 
-              key={token.id} 
-              id={token.id}
-              name={token.name}
-              marketCap={token.marketCap}
-              creationTime={token.creationTime}
-              description={token.description}
-              imageUrl={token.imageUrl}
-            />
-          ))}
-        </div>
+        {loading && !refreshing ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        ) : error ? (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+            {error}
+          </div>
+        ) : sortedTokens.length === 0 ? (
+          <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg text-center">
+            <p className="text-gray-600 dark:text-gray-400">
+              {sortCriteria === 'migrated' 
+                ? 'No migrated tokens available yet.' 
+                : 'No tokens available. Connect your wallet to see tokens.'}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {sortedTokens.map((token) => (
+              <TokenCard 
+                key={token.id} 
+                id={token.id}
+                name={token.name}
+                marketCap={token.marketCap}
+                creationTime={formatCreationTime(token.creationTime)}
+                description={token.description}
+                imageUrl={token.imageUrl}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
