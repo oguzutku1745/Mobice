@@ -4,7 +4,14 @@ import { config } from './config';
 // Define types for window.ethereum
 declare global {
   interface Window {
-    ethereum: any;
+    ethereum: {
+      request: (args: { method: string; params?: any[] }) => Promise<any>;
+      on: (eventName: string, callback: (...args: any[]) => void) => void;
+      removeListener: (eventName: string, callback: (...args: any[]) => void) => void;
+      isMetaMask?: boolean;
+      chainId?: string;
+      selectedAddress?: string;
+    };
   }
 }
 
@@ -65,7 +72,7 @@ export async function getProviderAndSigner(): Promise<{ provider: ethers.provide
 /**
  * Get factory contract instance
  */
-export async function getFactoryContract(signer: ethers.providers.JsonRpcSigner | ethers.providers.Web3Provider | null = null) {
+export async function getFactoryContract(signer: ethers.providers.JsonRpcSigner | ethers.providers.Web3Provider | ethers.Signer | null = null) {
   const { provider, signer: defaultSigner } = await getProviderAndSigner();
   const signerOrProvider = signer || defaultSigner || provider;
   
@@ -79,7 +86,7 @@ export async function getFactoryContract(signer: ethers.providers.JsonRpcSigner 
 /**
  * Get token contract instance
  */
-export async function getTokenContract(tokenAddress: string, signer: ethers.providers.JsonRpcSigner | ethers.providers.Web3Provider | null = null) {
+export async function getTokenContract(tokenAddress: string, signer: ethers.providers.JsonRpcSigner | ethers.providers.Web3Provider | ethers.Signer | null = null) {
   const { provider, signer: defaultSigner } = await getProviderAndSigner();
   const signerOrProvider = signer || defaultSigner || provider;
   

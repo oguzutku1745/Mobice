@@ -26,13 +26,12 @@ export default function TokenDetailPage() {
     try {
       setLoading(true);
       
-      // Check if wallet is connected
       const { signer, provider } = await getProviderAndSigner();
       const isConnected = !!signer;
       setWalletConnected(isConnected);
       
-      // Fetch token details
-      const tokenData = await getTokenDetails(tokenId, forceRefresh);
+      // Fetch token details - update to match new signature
+      const tokenData = await getTokenDetails(tokenId);
       if (tokenData) {
         setToken(tokenData);
         

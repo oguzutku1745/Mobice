@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { getProviderAndSigner } from '../utils/blockchain';
-import { config } from '../utils/config';
 
 // Define network interface
 interface Network {
@@ -196,7 +195,7 @@ const Navbar = () => {
     if (chainId === 1337) {
       try {
         console.log("Checking actual chain ID from RPC...");
-        const provider = new (window as any).ethers.providers.JsonRpcProvider(networkData.rpcUrl);
+        const provider = new ((window as unknown) as { ethers: { providers: { JsonRpcProvider: new (url: string) => any } } }).ethers.providers.JsonRpcProvider(networkData.rpcUrl);
         const network = await provider.getNetwork();
         console.log(`RPC endpoint returned chain ID: ${network.chainId}`);
         
@@ -224,50 +223,59 @@ const Navbar = () => {
       
       console.log(`Successfully switched to ${networkData.name}`);
       setIsNetworkDropdownOpen(false);
-    } catch (switchError: any) {
+    } catch (switchError: unknown) {
       console.log('Switch error:', switchError);
       
-      if (switchError.code === 4902 || chainId === 1337 || switchError.message.includes('Unrecognized chain ID')) {
-        try {
-          console.log(`Adding network: ${networkData.name} (${chainId})`);
-          
-          const chainIdHex = `0x${chainId.toString(16)}`;
-          await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-              {
-                chainId: chainIdHex,
-                chainName: networkData.name,
-                rpcUrls: [networkData.rpcUrl],
-                nativeCurrency: networkData.nativeCurrency,
-                blockExplorerUrls: networkData.blockExplorerUrl ? [networkData.blockExplorerUrl] : undefined,
-              },
-            ],
-          });
-          
-          console.log(`Network added: ${networkData.name}`);
-          
-          // After adding, try switching again for Hardhat
-          if (chainId === 1337) {
-            setTimeout(async () => {
-              try {
-                await window.ethereum.request({
-                  method: 'wallet_switchEthereumChain',
-                  params: [{ chainId: chainIdHex }],
-                });
-                console.log(`Successfully switched to ${networkData.name}`);
-              } catch (error) {
-                console.error('Error switching after adding network:', error);
-              }
-            }, 1000);
+      // Type guard to check if switchError has code property
+      if (
+        typeof switchError === 'object' && 
+        switchError !== null && 
+        ('code' in switchError || 'message' in switchError)
+      ) {
+        const error = switchError as { code?: number; message?: string };
+        
+        if (error.code === 4902 || chainId === 1337 || (error.message && error.message.includes('Unrecognized chain ID'))) {
+          try {
+            console.log(`Adding network: ${networkData.name} (${chainId})`);
+            
+            const chainIdHex = `0x${chainId.toString(16)}`;
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: chainIdHex,
+                  chainName: networkData.name,
+                  rpcUrls: [networkData.rpcUrl],
+                  nativeCurrency: networkData.nativeCurrency,
+                  blockExplorerUrls: networkData.blockExplorerUrl ? [networkData.blockExplorerUrl] : undefined,
+                },
+              ],
+            });
+            
+            console.log(`Network added: ${networkData.name}`);
+            
+            // After adding, try switching again for Hardhat
+            if (chainId === 1337) {
+              setTimeout(async () => {
+                try {
+                  await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: chainIdHex }],
+                  });
+                  console.log(`Successfully switched to ${networkData.name}`);
+                } catch (error) {
+                  console.error('Error switching after adding network:', error);
+                }
+              }, 1000);
+            }
+            
+            setIsNetworkDropdownOpen(false);
+          } catch (addError) {
+            console.error('Error adding network:', addError);
           }
-          
-          setIsNetworkDropdownOpen(false);
-        } catch (addError) {
-          console.error('Error adding network:', addError);
+        } else {
+          console.error('Error switching network:', error);
         }
-      } else {
-        console.error('Error switching network:', switchError);
       }
     }
   };

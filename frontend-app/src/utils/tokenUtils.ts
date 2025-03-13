@@ -187,9 +187,9 @@ export async function getUserCreatedTokens(userAddress: string): Promise<TokenDa
 /**
  * Fetches details for a specific token
  */
-export async function getTokenDetails(tokenAddress: string, skipCache: boolean = false): Promise<TokenData | null> {
+export async function getTokenDetails(tokenAddress: string): Promise<TokenData | null> {
   try {
-    const { provider, signer } = await getProviderAndSigner();
+    const { provider } = await getProviderAndSigner();
     if (!provider) {
       console.error("Provider not available");
       return null;
@@ -332,13 +332,6 @@ export async function getTokenDetails(tokenAddress: string, skipCache: boolean =
       return null;
     }
   }
-}
-
-// Helper function to format ether values
-function formatEther(wei: bigint | string | number): string {
-  // Convert to string first to handle all types
-  const weiStr = wei.toString();
-  return ethers.utils.formatEther(weiStr);
 }
 
 /**
