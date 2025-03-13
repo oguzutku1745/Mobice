@@ -42,7 +42,7 @@ export const localHardhat = {
 // Environment configuration
 export const config = {
   // Set to true to use local Hardhat network, false to use MONAD Testnet
-  useLocalNetwork: true,
+  useLocalNetwork: false,
   
   // Contract addresses - update these after deployment
   contracts: {
