@@ -334,6 +334,7 @@ The following contracts have been deployed to the Monad Testnet:
 | BondingCurveFactory | 0xDf9c90f40819cd3E5941d148b88bf47aCcacBf06 |
 | Test Token (MTT) | 0xdD0Eb5D4C3A505d28eA59d55b1d75B994D195Db2 |
 | UniswapV2Router02 (existing) | 0xfb8e1c3b833f9e67a71c859a132cf783b645e436 |
+| Deployer Account (EOA) | 0x2f42572502D2991F75A2F66BA97a28043E1A74a7 |
 
 ## License
 
